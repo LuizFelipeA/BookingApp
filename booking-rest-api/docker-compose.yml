@@ -1,0 +1,23 @@
+version: 3.7
+
+services:
+
+  db:
+      build:
+        context: .
+        dockerfile: _postgres.dockerfile
+      image: github.com/hyperyuri/repository-db
+      container_name: repository-pattern-db
+      restart: unless-stopped
+      tty: true
+      ports:
+        - "25432:5432"
+      environment:
+        POSTGRES_DB: "${DB_NAME}"
+        POSTGRES_USER: "${DB_USER}"
+        POSTGRES_PASSWORD: "${DB_PASS}"
+        PGDATA: /var/lib/postgresql/data/repository-pattern-go
+      volumes:
+        - repository-pattern-go:/var/lib/postgresql/data
+      networks:
+        - repository-network
